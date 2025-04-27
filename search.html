@@ -79,11 +79,24 @@
   position: relative;
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  width: 50px; /* حجم اللوجو */
+  height: 50px;
+  object-fit: contain;
+  margin-right: 10px; /* مسافة بين الصورة والنص */
+}
+
 .logo h1 {
   margin: 0;
   font-size: 24px;
   font-weight: bold;
 }
+
 
 .nav-links {
   display: flex;
@@ -163,6 +176,7 @@
 <header class="site-header">
   <div class="container">
     <div class="logo">
+      <img src="logo.jfif" alt="Logo" class="logo-img">
       <h1>Dr. Hiam Rashid Lab</h1>
     </div>
 
