@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض قائمة مرضى الكيمياء النسيجية المناعية</title>
+    <link rel="stylesheet" href="yle.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>🔎 بحث عن مريض الكيمياء النسيجية المناعية</h1>
+
+        <div class="search-section">
+            <input type="text" id="searchName" placeholder="ادخل الاسم الأول">
+            <button id="searchBtn">بحث</button>
+        </div>
+
+        <div id="patientsList"></div>
+
+        <div id="patientDetails" class="hidden"></div>
+
+        <div id="patientImages" class="hidden"></div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="scri.js"></script>
+
+</body>
+</html>

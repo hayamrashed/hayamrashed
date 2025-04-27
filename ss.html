@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Report</title>
+  <link rel="stylesheet" href="patient.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+  <style>
+    .report-container {
+      width: 80%;
+      margin: auto;
+      font-family: Arial, sans-serif;
+      color: #04243f;
+    }
+
+    .centered {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .info-row div {
+      flex: 1;
+      min-width: 150px;
+      margin-right: 20px;
+    }
+
+    .info-row.single div {
+      flex: 0 0 100%;
+    }
+
+    .info-column {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: #080808;
+      margin-bottom: 20px;
+    }
+
+    .bold-title {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+  .bold-title .label {
+    color: #003366; /* الأزرق الغامق للعناوين */
+    font-weight: bold;
+  }
+
+  .bold-title span:not(.label) {
+    color: black; /* اللون العادي للنص المستخرج */
+  }
+    .bold-title h3 {
+    color: #003366; /* أزرق غامق */
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0 0 8px 0; /* إزالة المسافات العلوية والسفلية الافتراضية */
+  }
+  
+    hr {
+      margin: 30px 0;
+      border: 0;
+      border-top: 1px solid #ccc;
+    }
+
+    h3.centered {
+      color: #465a85;
+    }
+
+    ul {
+      margin-top: 5px;
+      margin-left: 20px;
+    }
+    .buttons {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.buttons button {
+  background-color: #4CAF50; /* أخضر */
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.buttons button:hover {
+  background-color: #45a049; /* أخضر أغمق عند الوقوف عليه */
+}
+
+  </style>
+  <style media="print">
+    body {
+      font-family: Arial, sans-serif;
+      color: #2E5C20;
+    }
+    .report-container {
+      width: 100%;
+      margin: 0;
+      padding: 20px;
+    }
+    .info-row, .info-column {
+      display: block; /* عند الطباعة خلي كل شيء بلوك */
+      margin-bottom: 15px;
+    }
+    .info-row div, .info-column div {
+      margin-bottom: 10px;
+    }
+    ul {
+      margin-left: 20px;
+    }
+    button, .buttons, #photosSection {
+      display: none; /* إخفاء الأزرار والصور عند الطباعة */
+    }
+  </style>
+  
+</head>
+<body>
+
+  <div id="patientReport" class="report-container">
+    <h2 class="centered">PROF - DR HAYAM RASHED<br>PATHOLOGY LABORATORY</h2>
+    <hr>
+    <div class="info-row">
+      <div><strong>Patient Name:</strong> <span id="patient_name"></span></div>
+      <div><strong>Age:</strong> <span id="age"></span></div>
+      <div><strong>Sex:</strong> <span id="sex"></span></div>
+    </div>
+  
+    <div class="info-row">
+      <div><strong>Date Report Issued:</strong> <span id="date_report_issued"></span></div>
+      <div><strong>Specimen Received Date:</strong> <span id="specimen_received_date"></span></div>
+    </div>
+  
+    <div class="info-row single">
+      <div><strong>Referred By:</strong> <span id="referred_by"></span></div>
+    </div>
+    <div class="info-row single">
+      <div><strong>Patient Code:</strong> <span id="code"></span></div>
+    </div>
+    <hr>
+  
+    <h3 class="centered">IMMUNOHISTOCHEMISTRY REPORT</h3>
+  
+    <div class="info-column">
+      <div class="bold-title">
+        <span class="label">Clinical Data:</span> <span id="clinical_data"></span>
+      </div>
+      <hr>
+      <div class="bold-title">
+        <span class="label">Specimen:</span> <span id="specimen"></span>
+      </div>
+      <hr>
+      <div class="bold-title">
+        <span class="label">Procedure:</span> <span id="procedure"></span>
+      </div>
+    </div>
+    
+      <hr>
+      <div class="bold-ti"><h3>Results:</h3></div>
+      <ul id="results"></ul>
+    </div>
+    <hr>
+    <div class="bold-title">Diagnosis:</div>
+      <ul id="diagnosis"></ul>
+    </div>
+
+  </div>
+
+<!-- أزرار التحكم -->
+<div class="buttons">
+  <button onclick="printReport()">Print PDF</button>
+  <button onclick="saveAsImage()">Download as Image</button>
+  <button onclick="loadVisualPhotos()">Load Visual Data Photos</button>
+</div>
+
+<!-- قسم الصور البصرية لو أراد المستخدم -->
+<div id="photosSection" class="photos-section"></div>
+
+<script src="patient.js"></script>
+
+<script>
+  function printReport() {
+    var content = document.getElementById('patientReport').innerHTML;
+    var reportLink = window.location.href; // رابط التقرير الحالي
+
+    var printWindow = window.open('', '', 'height=800,width=800');
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Patient Report</title>
+          <style>
+            body { 
+              font-family: Arial, sans-serif; 
+              color: #2E5C20; 
+              margin: 20px; 
+            }
+            .report-container { width: 100%; }
+            .info-row, .info-column { 
+              display: block; 
+              margin-bottom: 15px; 
+            }
+            .info-row div, .info-column div { 
+              margin-bottom: 10px; 
+            }
+            ul { margin-left: 20px; }
+            hr { 
+              margin: 30px 0; 
+              border: 0; 
+              border-top: 1px solid #ccc; 
+            }
+            .centered { 
+              text-align: center; 
+              margin-bottom: 20px; 
+            }
+            .bold-title { 
+              font-weight: bold; 
+              font-size: 16px; 
+              color: #000; 
+              margin-bottom: 5px; 
+            }
+            h3.centered { 
+              color: #3B4A6B; 
+            }
+            .signature-barcode {
+              margin-top: 50px;
+              display: flex;
+              justify-content: flex-end;
+              align-items: center;
+              gap: 20px;
+            }
+            .signature {
+              font-weight: bold;
+              font-size: 18px;
+              color: #000;
+            }
+            .qrcode-container {
+              width: 80px;
+              height: 80px;
+            }
+          </style>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>
+        </head>
+        <body>
+          <div class="report-container">
+            ${content}
+            <div class="signature-barcode">
+              <div class="signature">PROF - DR HAYAM RASHED</div>
+              <div class="qrcode-container" id="qrcode"></div>
+            </div>
+          </div>
+
+          <script>
+            window.onload = function() {
+              new QRCode(document.getElementById("qrcode"), "${reportLink}");
+              setTimeout(function() {
+                window.print();
+                window.close();
+              }, 500);
+            }
+          <\/script>
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  }
+</script>
+
+  
+
+</body>
+</html>

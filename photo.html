@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>عرض صور المريض</title>
+  <link rel="stylesheet" href="photo.css">
+</head>
+<header class="site-header">
+  <div class="container">
+    <div class="logo">
+      <h1>Dr. Hiam Rashid Lab</h1>
+    </div>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="search.html">search&Reports</a>
+      <a href="IHC Report.html">IHC Report</a>
+      <a href="Pathology Report.html">Pathology Report</a>
+      <a href="Cytology Report.html">Cytology Report</a>
+    </nav>
+
+    <div class="menu-icon" onclick="toggleMenu()">☰</div>
+  </div>
+
+  <script>
+    function toggleMenu() {
+      var nav = document.getElementById('navLinks');
+      if (nav.style.display === "flex") {
+        nav.style.display = "none";
+      } else {
+        nav.style.display = "flex";
+      }
+    }
+  </script>
+</header>
+<body style="direction: rtl; font-family: 'Cairo', sans-serif; padding: 20px;">
+
+  <h2>📸 عرض صور المريض</h2>
+  
+  <div class="search-area">
+    <input type="text" id="searchCode" placeholder="أدخل كود المريض">
+    <button id="viewBtn">عرض الصور</button>
+  </div>
+  <script src="search.js"></script>
+  <section class="contact">
+    <h1>تواصل معنا</h1>
+    <p>📞  22932069  0 01</p>
+    <p>📧 hayamrashed92@gmail.com</p>
+  </section>
+  
+  <footer>
+    جميع الحقوق محفوظة © 2025 معمل د. هيام راشد
+  </footer>
+  <div id="patientFiles" class="gallery"></div>
+
+  <script type="module" src="photo.js"></script>
+</body>
+</html>
