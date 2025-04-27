@@ -221,31 +221,17 @@ async function listPhotos(folder) {
 
 loadPatient();
 function generateAndDownloadQR() {
-  const reportUrl = window.location.href; // رابط التقرير الحالي
+  const reportUrl = window.location.href;
 
-  // إنشاء عنصر مؤقت
-  const tempDiv = document.createElement("div");
-  document.body.appendChild(tempDiv);
-
-  // إنشاء كود QR داخله
-  const qr = new QRCode(tempDiv, {
-    text: reportUrl,
-    width: 256,
-    height: 256,
+  const qr = new QRious({
+    value: reportUrl,
+    size: 300, // حجم ممتاز للقراءة
+    level: 'H', // أعلى تصحيح خطأ
   });
 
-  // ننتظر شويه لما يتولد
-  setTimeout(() => {
-    const qrImg = tempDiv.querySelector("img");
-
-    if (qrImg) {
-      const link = document.createElement('a');
-      link.href = qrImg.src;
-      link.download = 'report-qr-code.png';
-      link.click();
-    }
-
-    // تنظيف العنصر بعد التحميل
-    document.body.removeChild(tempDiv);
-  }, 500); // 0.5 ثانية انتظار
+  const link = document.createElement('a');
+  link.href = qr.toDataURL('image/png');
+  link.download = 'report-qr-code.png';
+  link.click();
 }
+
