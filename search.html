@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>عرض قائمة مرضى الكيمياء النسيجية المناعية</title>
-  <style>
+ <style>
     body {
       font-family: 'Cairo', sans-serif;
       background: #f0f2f5;
@@ -40,11 +40,17 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
     .patient-card img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+  width: 80px;
+  height: 80px;
+  border-radius: 8px; /* مربع مع زوايا خفيفة - ممكن تخليها 0 لو تريده مربع تماماً */
+  object-fit: cover;
+  transition: transform 0.3s ease; /* إضافة انتقال سلس */
+  cursor: pointer; /* توحي للمستخدم بأنه قابل للنقر */
+}
+
+.patient-card img:active {
+  transform: scale(5); /* عند الضغط يكبر 1.2 مرة */
+}
     .patient-info {
       flex-grow: 1;
     }
