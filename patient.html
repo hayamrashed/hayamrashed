@@ -102,7 +102,13 @@
 <body>
 
 <div id="patientReport" class="report-container">
-  <h2 class="centered">PROF - DR HAYAM RASHED<br>PATHOLOGY LABORATORY</h2>
+  <h2 class="centered"> <br></h2>
+  <div class="info-row">
+  </div>
+  <h2 class="centered"> <br></h2>
+  <div class="info-row">
+  </div>
+  <hr>
   <hr>
 
   <div class="info-row">
@@ -149,12 +155,15 @@
       <span class="label">Diagnosis:</span> <span id="diagnosis"></span>
     </div>
   </div>
-
   <!-- مكان التوقيع -->
   <div class="signature">
     <br><br>
     <div class="right-signature">PROF - DR HAYAM RASHED</div>
   </div>
+  <h2 class="centered"> <br></h2>
+  <div class="info-row">
+  </div>
+  <hr>
 </div>
 
 <div class="buttons">
@@ -162,7 +171,7 @@
   <button onclick="saveAsImage()">Download as Image</button>
   <button onclick="window.location.href='photo.html'">Load Visual Data Photos</button>
   <button onclick="generateAndDownloadQR()">QR Code</button>
-
+  <button onclick="window.location.href='edit_patient.html'">edit</button>
 </div>
 
 <div id="photosSection" class="photos-section"></div>
